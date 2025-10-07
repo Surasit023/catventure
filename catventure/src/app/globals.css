@@ -1,7 +1,10 @@
-
-
 @import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
 @import "tailwindcss";
+
+/* Smooth Scroll */
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   background: linear-gradient(313deg, #1A1A1A 0%, #080808 100%);
@@ -13,6 +16,7 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   height: 6px;
   width: 6px;
@@ -27,4 +31,9 @@ body {
 ::-webkit-scrollbar-thumb {
   background: #262626;
   border-radius: 10px;
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #404040;
 }

@@ -1,10 +1,16 @@
 'use client'
 import React, { useEffect, useRef, useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, useInView } from 'framer-motion'
 
 const HeroSection = () => {
   const videoRefs = useRef([]);
   const [currentVideo, setCurrentVideo] = useState(0);
+  const contentRef = useRef(null);
+  const isInView = useInView(contentRef, { 
+    once: false,      // ไม่ trigger ครั้งเดียว จะ trigger ทุกครั้งที่เข้า-ออก viewport
+    amount: 0.5,       // trigger เมื่อ 50% ของ element อยู่ใน viewport
+    margin: "0px"
+  });
   
   const videos = [
     '/video/bg1.mp4',
@@ -44,7 +50,7 @@ const HeroSection = () => {
   }, [currentVideo, videos.length]);
 
   return (
-    <div className="relative min-h-screen overflow-hidden">
+    <div ref={contentRef} className="relative min-h-screen overflow-hidden">
       {/* Video Background */}
       <div className="absolute inset-0">
         {videos.map((video, index) => (
@@ -69,7 +75,7 @@ const HeroSection = () => {
           <motion.h1 
             className="text-4xl md:text-5xl lg:text-7xl font-bold text-white mb-4 md:mb-8 leading-tight"
             initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
             transition={{ 
               duration: 0.8, 
               ease: "easeOut",
@@ -107,7 +113,7 @@ const HeroSection = () => {
           <motion.p 
             className="text-gray-200 mb-4 md:mb-8 md:text-xl lg:text-2xl"
             initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
             transition={{ 
               duration: 0.6, 
               delay: 1,
@@ -121,7 +127,7 @@ const HeroSection = () => {
           <motion.button 
             className="group relative px-5 md:px-8 py-3 md:py-4 bg-gradient-to-r from-transparent via-blue-600/40 to-transparent text-white font-bold text-sm md:text-lg rounded-full shadow-2xl overflow-visible cursor-pointer transition-all duration-500 backdrop-blur-sm border-2 border-cyan-400/30 hover:border-cyan-400/50 hover:scale-105"
             initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
             transition={{ 
               duration: 0.6, 
               delay: 1,

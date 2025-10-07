@@ -1,6 +1,6 @@
 'use client'
-import React, { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import React, { useState, useRef } from 'react'
+import { motion, AnimatePresence, useInView } from 'framer-motion'
 import { ChevronLeft, ChevronRight, Swords, MapPin, BarChart, Maximize2, X } from 'lucide-react'
 import Image from 'next/image'
 import { maps } from '@/data/maps'
@@ -9,6 +9,13 @@ const MapsLocation = () => {
   const [currentMap, setCurrentMap] = useState(0)
   const [currentImage, setCurrentImage] = useState(0)
   const [isFullscreen, setIsFullscreen] = useState(false)
+
+  const contentRef = useRef(null)
+  const isInView = useInView(contentRef, { 
+    once: false,
+    amount: 0.5,
+    margin: "0px"
+  })
 
   const particles = Array.from({ length: 50 }, (_, i) => ({
     left: (i * 7.3) % 100,
@@ -74,8 +81,8 @@ const MapsLocation = () => {
       {/* Header */}
       <motion.div
         className="text-center mb-10 sm:mb-12 lg:mb-16 relative z-10 pt-3 sm:pt-5 px-4"
-        initial={{ opacity: 0, y: -30 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0, y: 50 }}
+        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
       >
@@ -91,12 +98,12 @@ const MapsLocation = () => {
       </motion.div>
 
       {/* Main Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div ref={contentRef} className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentMap}
             initial={{ opacity: 0, x: 100 }}
-            animate={{ opacity: 1, x: 0 }}
+            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 100 }}
             exit={{ opacity: 0, x: -100 }}
             transition={{ duration: 0.5 }}
             className="grid lg:grid-cols-2 gap-6 sm:gap-8 items-center"
@@ -251,9 +258,9 @@ const MapsLocation = () => {
 
         {/* Map Navigation */}
         <motion.div
-          className="flex items-center justify-center gap-4 sm:gap-6 lg:gap-8 mt-10 sm:mt-12 lg:mt-16"
+          className="flex items-center justify-center gap-4 sm:gap-6 lg:gap-8 mt-5 pb-10 sm:mt-12 lg:mt-16 lg:pb-0"
           initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 100 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.3 }}
         >

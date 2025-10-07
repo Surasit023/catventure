@@ -1,6 +1,6 @@
 'use client'
 import React, { useState, useEffect, useCallback, useRef } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useInView } from 'framer-motion'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import Image from 'next/image'
 import { characters } from '@/data/characters'
@@ -8,6 +8,12 @@ import { characters } from '@/data/characters'
 const Character = () => {
   const [currentItem, setCurrentItem] = useState(0)
   const directionRef = useRef(1)
+  const contentRef = useRef(null)
+  const isInView = useInView(contentRef, { 
+    once: false,
+    amount: 0.5,
+    margin: "0px"
+  })
 
   const particles = Array.from({ length: 50 }, (_, i) => ({
     left: (i * 7.3) % 100,
@@ -64,12 +70,12 @@ const Character = () => {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 min-h-screen flex flex-col lg:flex-row items-center justify-between px-4 sm:px-8 md:px-16 py-12 sm:py-16 lg:py-20 gap-5 lg:gap-4">
+      <div ref={contentRef} className="relative z-10 min-h-screen flex flex-col lg:flex-row items-center justify-between px-4 sm:px-8 md:px-16 py-12 sm:py-16 lg:py-20 gap-5 lg:gap-4">
         {/* Left Section */}
         <motion.div
           className="flex-1 max-w-md text-center lg:text-left"
           initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: 1, x: 0 }}
+          animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
           transition={{ duration: 0.8 }}
         >
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 sm:mb-6 leading-tight">
@@ -156,7 +162,7 @@ const Character = () => {
         <motion.div 
           className="relative lg:absolute lg:bottom-10 lg:left-0 lg:right-0 z-20 w-full lg:w-auto"
           initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
           <div className="flex items-center justify-center gap-6 sm:gap-12">
@@ -249,7 +255,7 @@ const Character = () => {
         <motion.div
           className="flex-1 max-w-md w-full"
           initial={{ opacity: 0, x: 50 }}
-          animate={{ opacity: 1, x: 0 }}
+          animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           <AnimatePresence mode="wait">
