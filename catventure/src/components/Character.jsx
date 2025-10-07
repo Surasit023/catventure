@@ -42,7 +42,7 @@ const Character = () => {
   }, [prevItem, nextItem])
 
   return (
-    <div className="relative min-h-screen bg-black overflow-hidden">
+    <div id="characters" className="relative min-h-screen bg-black overflow-hidden">
       {/* Animated Background */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900 to-black"></div>

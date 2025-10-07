@@ -50,7 +50,7 @@ const HeroSection = () => {
   }, [currentVideo, videos.length]);
 
   return (
-    <div ref={contentRef} className="relative min-h-screen overflow-hidden">
+    <div id="gameplay" ref={contentRef} className="relative min-h-screen overflow-hidden">
       {/* Video Background */}
       <div className="absolute inset-0">
         {videos.map((video, index) => (

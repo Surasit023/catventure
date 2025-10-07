@@ -36,6 +36,22 @@ const Navbar = () => {
     { href: '#items', label: 'ITEMS' }
   ]
 
+  const handleNavClick = (e, href) => {
+    e.preventDefault();
+    setMobileMenuOpen(false); // ปิด mobile menu
+    
+    const target = document.querySelector(href);
+    if (target) {
+      const offset = 0; // ความสูง navbar
+      const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
+      
+      window.scrollTo({
+        top: targetPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   return (
     <>
       <motion.nav 
@@ -73,7 +89,8 @@ const Navbar = () => {
             {navLinks.map((link, index) => (
               <a 
                 key={link.href}
-                href={link.href} 
+                href={link.href}
+                onClick={(e) => handleNavClick(e, link.href)}
                 className="text-white hover:text-blue-400 transition-colors duration-300 text-sm font-medium tracking-wide relative group"
               >
                 {link.label}
@@ -134,7 +151,7 @@ const Navbar = () => {
                   <motion.a
                     key={link.href}
                     href={link.href}
-                    onClick={handleLinkClick}
+                    onClick={(e) => handleNavClick(e, link.href)}
                     className="text-white hover:text-blue-400 transition-colors duration-300 text-base font-medium tracking-wide py-4 border-b border-slate-700/50"
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}

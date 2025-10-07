@@ -54,7 +54,7 @@ const MapsLocation = () => {
   }
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-b from-black via-slate-950 to-black overflow-hidden pt-10 sm:pt-20 pb-8 sm:pb-10">
+    <div id="maps" className="relative min-h-screen bg-gradient-to-b from-black via-slate-950 to-black overflow-hidden pt-10 sm:pt-20 pb-8 sm:pb-10">
       {/* Animated Background Particles */}
       <div className="absolute inset-0 overflow-hidden">
         {particles.map((particle, i) => ( 
